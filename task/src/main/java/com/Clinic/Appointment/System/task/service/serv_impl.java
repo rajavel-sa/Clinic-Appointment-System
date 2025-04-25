@@ -33,7 +33,7 @@ public class serv_impl implements clinic_serv{
         Optional<doctor_mod> doctorOpt = doctorRepo.findAll().stream().filter(doc -> doc.getD_spl().equalsIgnoreCase(doctorType)).findFirst();
 
         if (doctorOpt.isEmpty()) {
-            return "x No doctor found with specialization: " + doctorType;
+            return "x No doctor found with specialization or check spelling : " + doctorType;
         }
 
         doctor_mod doctor = doctorOpt.get();
@@ -65,8 +65,7 @@ public class serv_impl implements clinic_serv{
             List<Integer> availableSlots = new ArrayList<>(validSlots);
             availableSlots.removeAll(bookedTimes);
 
-            return "! Time slot " + time + " already booked for Dr. " + doctor.getD_name()
-                    + ". Try one of these: " + availableSlots;
+            return "! Time slot " + time + " already booked for Dr. " + doctor.getD_name()+ ". Try one of these: " + availableSlots;
         }
 
         appointment_mod appointment = new appointment_mod();
@@ -109,7 +108,7 @@ public class serv_impl implements clinic_serv{
             return " x No appointment found for patient: " + patientName;
         }
         appointments.forEach(appointmentRepo::delete);
-        return " x Appointment(s) cancelled for patient: " + patientName;
+        return " x Appointment cancelled for patient: " + patientName;
     }
 
     //for available time slots
