@@ -149,7 +149,7 @@ public class serv_impl implements clinic_serv {
         appointmentRepo.save(appointment);
 
         // Return a response with details
-        return "✅ Appointment for patient " + patientName + " with " + doctorOpt.get().getD_spl() + " Dr. " + doctorOpt.get().getD_name()
+        return "Done. Appointment for patient " + patientName + " with " + doctorOpt.get().getD_spl() + " Dr. " + doctorOpt.get().getD_name()
                 + " rescheduled from time slot " + oldTime + " to " + time + ".";
     }
 
@@ -183,8 +183,8 @@ public class serv_impl implements clinic_serv {
                 .append("\n");
     }
 
-    return "✅ Appointment for patient " + patientName + " with specialization " + specialization +
-            " Dr. " + doctorName + " at time " + time + " is deleted.\n" +
+    return "Done. Appointment for patient " + patientName + " with specialization " + specialization +
+            " Dr. " + doctorName + " at time " + time + " is cancelled.\n" +
             (remainingAppointments.isEmpty() ? "No remaining appointments." :
                     "Remaining appointments:\n" + remainingAppointmentsDetails.toString());
 }
@@ -204,7 +204,6 @@ public class serv_impl implements clinic_serv {
 
     @Override
     public String getAppointmentsForPatient(String patientName) {
-        // First check if patient exists
         boolean patientExists = patientRepo.findAll()
                 .stream()
                 .anyMatch(p -> p.getP_name().equalsIgnoreCase(patientName));
@@ -213,7 +212,6 @@ public class serv_impl implements clinic_serv {
             return "X No patient found with name: " + patientName + ".";
         }
 
-        // Fetch all appointments for the patient
         List<appointment_mod> appointments = appointmentRepo.findAll()
                 .stream()
                 .filter(app -> app.getP_name().equalsIgnoreCase(patientName))
